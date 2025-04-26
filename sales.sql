@@ -176,7 +176,7 @@ SELECT * FROM categoria;
 SELECT * FROM produto_pedido;
 
 
--- Calculo do total gasto por cada cliente
+-- Calculo do total gasto por cada cliente (antes da criação da trigger)
 WITH preco_quantidade AS 
 	(
 	SELECT c.nome, (p.preco * pp.quantidade) AS preco FROM produto p
@@ -186,5 +186,30 @@ WITH preco_quantidade AS
 	) SELECT nome, SUM(preco) AS total FROM preco_quantidade
 	  GROUP BY nome;
 
--- Gatilho para inserir o total automaticamente nos pedidos
+-- Trigger para inserir o total automaticamente nos pedidos
+CREATE OR REPLACE FUNCTION total_pedidos () 
+RETURNS TRIGGER 
+LANGUAGE plpgsql
+AS $$
+BEGIN
+	UPDATE pedido SET total = (
+		SELECT SUM(p.preco * pp.quantidade) 
+		FROM produto p
+		JOIN produto_pedido pp ON p.idP = pp.idProduto
+		WHERE pp.idPedido = NEW.idPedido
+	) WHERE idP = NEW.idPedido;
 
+	RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER atualizar_total_pedidos 
+AFTER INSERT OR UPDATE OR DELETE ON produto_pedido
+FOR EACH ROW
+EXECUTE FUNCTION total_pedidos();
+
+
+-- Deletando dados da tabela de relação para inserir novamente e testar a trigger
+DELETE FROM produto_pedido;
+
+SELECT * FROM pedido;
