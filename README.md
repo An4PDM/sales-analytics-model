@@ -10,7 +10,7 @@ This project was built for improve business data management. The functionalities
 ## Conceptual Model
 ![Conceptual Model](img/sales_conceptual_model.png)
 
-## Logic Model
-![Logic Model](img/sales_logic_model.png)
+## Logical Model
+![Logical Model](img/sales_logic_model.png)
 
 
