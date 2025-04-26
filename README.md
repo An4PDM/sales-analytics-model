@@ -1,4 +1,11 @@
 # Sales Analytics Model
+
+Sales Analytics Model is a database project that simulates the management of a retail sales environment. It was designed to ensure data persistence, maintain data quality, and support high-performance queries.
+
+The project uses PostgreSQL as the database system and implements PL/pgSQL for procedural operations such as triggers, functions, and stored procedures.
+
+Through this model, it's possible to manage products, clients, employees, and sales orders, while also enabling deeper business analysis through views and automated processes.
+
 ## Objective
 This project was built for improve business data management. The functionalities included are:
 
