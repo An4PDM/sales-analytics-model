@@ -213,3 +213,56 @@ EXECUTE FUNCTION total_pedidos();
 DELETE FROM produto_pedido;
 
 SELECT * FROM pedido;
+
+-- Procedure para inserir dados na tabela funcionario
+CREATE OR REPLACE PROCEDURE insert_funcionario (n VARCHAR(45), nasc DATE, s INT, c cargo_enum)
+LANGUAGE SQL
+AS $$
+	INSERT INTO funcionario (nome, nascimento, setor_id, cargo) VALUES (n,nasc,s,c);
+$$;
+
+CALL insert_funcionario ('Gilvanete','1989-10-14',3,'Analista');
+SELECT * FROM funcionario;
+
+DELETE FROM funcionario WHERE idF = 37;
+
+-- Procedure para inserir dados na tabela cliente
+CREATE OR REPLACE PROCEDURE insert_cliente (n VARCHAR(45), nasc DATE)
+LANGUAGE SQL
+AS $$
+	INSERT INTO cliente (nome, nascimento) VALUES (n,nasc);
+$$;
+
+CALL insert_cliente ('Paloma','2005-12-20');
+SELECT * FROM cliente;
+
+-- Procedure para inserir dados na tabela produto
+CREATE OR REPLACE PROCEDURE insert_produto (n VARCHAR(45), p DECIMAL(10,2), e INT, q INT, idC INT)
+LANGUAGE SQL
+AS $$
+	INSERT INTO produto (nome, preco, estoque_minimo, quantidade_atual, idCateg) 
+	VALUES  (n, p, e, q, idC);
+$$;
+
+CALL insert_produto ('Abacaxi',12.90,15,22,4);
+SELECT * FROM produto;
+
+-- Procedure para inserir dados na tabela pedido
+CREATE OR REPLACE PROCEDURE insert_pedido (m pagamento_enum, idC INT)
+LANGUAGE SQL
+AS $$
+	INSERT INTO pedido (modo_pagamento, idC) VALUES (m, idC);
+$$;
+
+CALL insert_pedido ('dinheiro',16);
+SELECT * FROM pedido;
+
+-- Procedure para inserir dados na tabela produto_pedido
+CREATE OR REPLACE PROCEDURE insert_prod_ped (idPed INT, idProd INT, q INT)
+LANGUAGE SQL
+AS $$
+	INSERT INTO produto_pedido (idPedido, idProduto, quantidade) VALUES (idPed, idProd, q);
+$$;
+
+CALL insert_prod_ped (16,13,5);
+SELECT * FROM produto_pedido;
